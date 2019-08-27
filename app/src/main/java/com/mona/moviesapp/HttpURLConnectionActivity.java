@@ -1,5 +1,6 @@
 package com.mona.moviesapp;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity {
+public class HttpURLConnectionActivity extends AppCompatActivity {
 
     TextView data;
     Button click;
@@ -23,19 +24,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_http_url_connection);
 
         data = findViewById(R.id.datatxt);
         click = findViewById(R.id.btnClick);
+        final String url ="https://api.themoviedb.org/3/movie/550?api_key=bd9eb9f62e484b7b3de4718afb6cd421";
 
         click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new JsonData().execute("https://api.themoviedb.org/3/movie/550?api_key=bd9eb9f62e484b7b3de4718afb6cd421");
+                new JsonData().execute(url);
             }
         });
     }
 
+    @SuppressLint("StaticFieldLeak")
     public class JsonData extends AsyncTask<String, String, String> {
 
         @Override

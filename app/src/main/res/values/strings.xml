@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MoviesApp</string>
-    <string name="click">Click!</string>
+    <string name="HttpURL">HttpURL</string>
+    <string name="OkHttp">OkHttp</string>
 </resources>
