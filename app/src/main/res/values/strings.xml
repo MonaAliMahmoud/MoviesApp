@@ -3,4 +3,5 @@
     <string name="HttpURL">HttpURL</string>
     <string name="OkHttp">OkHttp</string>
     <string name="serializable">Serializable</string>
+    <string name="serializejava">serializeJava</string>
 </resources>

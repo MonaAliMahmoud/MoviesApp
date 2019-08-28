@@ -24,7 +24,7 @@ public class OkHttpActivity extends AppCompatActivity {
 
         okdata = findViewById(R.id.okdatatxt);
 
-        String url ="https://api.themoviedb.org/3/movie/550?api_key=bd9eb9f62e484b7b3de4718afb6cd421";
+        final String url ="https://api.themoviedb.org/3/movie/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&language=en-US&page=1";
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()

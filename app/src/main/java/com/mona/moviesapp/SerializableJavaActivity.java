@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,7 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class HttpURLConnectionActivity extends AppCompatActivity {
+public class SerializableJavaActivity extends AppCompatActivity {
 
     TextView data;
     Button click;
@@ -24,7 +28,7 @@ public class HttpURLConnectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_http_url_connection);
+        setContentView(R.layout.activity_serializable_java);
 
         data = findViewById(R.id.datatxt);
         click = findViewById(R.id.btnClick);
@@ -60,11 +64,24 @@ public class HttpURLConnectionActivity extends AppCompatActivity {
                     buffer.append(line);
                 }
 
-                return buffer.toString();
+                String result = buffer.toString();
+                JSONObject moviesList = new JSONObject(result);
+                JSONArray movie = moviesList.getJSONArray("results");
+                StringBuffer mlist = new StringBuffer();
+
+                for (int i=0; i< movie.length(); i++) {
+                    JSONObject movieResult = movie.getJSONObject(i);
+                    String movieTitle = movieResult.getString("title");
+                    mlist.append(movieTitle+"\n");
+                }
+
+                return mlist.toString();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
                 e.printStackTrace();
             } finally {
                 if (httpURLConnection != null)

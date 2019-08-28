@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button httpurl, okhttp;
+    Button httpurl, okhttp, serialzeJava, serialzeGson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
 
         httpurl = (Button) findViewById(R.id.btnHttpUrl);
         okhttp = (Button) findViewById(R.id.btnOkHttp);
+        serialzeJava = (Button) findViewById(R.id.btnSerializeJava);
+        serialzeGson = (Button) findViewById(R.id.btnSerializeGson);
 
         httpurl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +33,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, OkHttpActivity.class));
+            }
+        });
+
+        serialzeJava.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SerializableJavaActivity.class));
+            }
+        });
+
+        serialzeGson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, SerializableGsonActivity.class));
             }
         });
 
