@@ -2,4 +2,5 @@
     <string name="app_name">MoviesApp</string>
     <string name="HttpURL">HttpURL</string>
     <string name="OkHttp">OkHttp</string>
+    <string name="serializable">Serializable</string>
 </resources>
