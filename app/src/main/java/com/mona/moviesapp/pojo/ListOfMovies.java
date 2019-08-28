@@ -3,8 +3,19 @@ package com.mona.moviesapp.pojo;
 import java.util.ArrayList;
 
 public class ListOfMovies {
-    int page;
-    int total_results;
-    int total_pages;
-    ArrayList<Movie> movies;
+    private int page;
+    private int total_results;
+    private int total_pages;
+    private ArrayList<Movie> results;
+
+    public ArrayList<Movie> getMovies() {
+        return results;
+    }
+
+    public void setMovies(ArrayList<Movie> movies) {
+        this.results = movies;
+    }
+
+    public ListOfMovies() {
+    }
 }
