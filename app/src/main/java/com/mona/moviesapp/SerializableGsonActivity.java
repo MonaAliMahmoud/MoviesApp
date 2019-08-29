@@ -30,7 +30,6 @@ public class SerializableGsonActivity extends AppCompatActivity {
         final String url ="https://api.themoviedb.org/3/movie/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&language=en-US&page=1";
         OkHttpClient client = new OkHttpClient();
 
-
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -49,12 +48,18 @@ public class SerializableGsonActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     String result = response.body().string();
                     final ListOfMovies mlist = gson.fromJson(result, ListOfMovies.class);
-                    mlist.getMovies().get(0).getTitle();
-
+                    final String []movies = new String[mlist.getMovies().size()];
+                    for(int i =0; i< mlist.getMovies().size(); i++) {
+                        movies[i] =mlist.getMovies().get(i).getTitle();
+                    }
                     SerializableGsonActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            okdata.setText(mlist.getMovies().get(0).getTitle());
+                            StringBuffer stringBuffer = new StringBuffer();
+
+                            for (int j=0;j<movies.length; j++){
+                                okdata.setText(stringBuffer.append(movies[j]+"\n"));
+                            }
                         }
                     });
                 }
