@@ -6,11 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.net.HttpURLConnection;
+import com.mona.moviesapp.popular_people.PopularListActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button httpurl, okhttp;
+    Button httpurl, okhttp, popularPeople;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         httpurl = (Button) findViewById(R.id.btnHttpUrl);
         okhttp = (Button) findViewById(R.id.btnOkHttp);
+        popularPeople = (Button) findViewById(R.id.btn_pop_people);
 
         httpurl.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, OkHttpActivity.class));
+            }
+        });
+
+        popularPeople.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, PopularListActivity.class));
             }
         });
 
