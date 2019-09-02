@@ -22,7 +22,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PopularListActivity extends AppCompatActivity {
 
@@ -88,12 +87,13 @@ public class PopularListActivity extends AppCompatActivity {
             try {
                 JSONObject popularList = new JSONObject(result);
                 JSONArray popular = popularList.getJSONArray("results");
-                for (int i=0; i< popularList.length(); i++) {
+                for (int i=0; i< popular.length(); i++) {
                     JSONObject popularResult = popular.getJSONObject(i);
                     PopularInfo popularInfo = new PopularInfo();
                     popularInfo.setName(popularResult.getString("name"));
                     popularInfo.setKnown_for_department(popularResult.getString("known_for_department"));
                     popularInfo.setProfile_path(popularResult.getString("profile_path"));
+                    popularInfo.setId(popularResult.getInt("id"));
                     popularInfos.add(popularInfo);
                 }
 

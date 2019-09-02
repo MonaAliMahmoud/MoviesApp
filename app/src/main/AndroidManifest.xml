@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".popular_people.PopularDetailsActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".OkHttpActivity"></activity>
-        <activity android:name=".HttpURLConnectionActivity"></activity>
-        <activity android:name=".popular_people.PopularListActivity"></activity>
+        <activity android:name=".OkHttpActivity" />
+        <activity android:name=".HttpURLConnectionActivity" />
+        <activity android:name=".popular_people.PopularListActivity" />
     </application>
 
 </manifest>

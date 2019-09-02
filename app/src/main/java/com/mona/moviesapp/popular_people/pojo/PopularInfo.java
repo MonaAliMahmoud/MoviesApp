@@ -9,6 +9,38 @@ public class PopularInfo {
     private Boolean adult;
     private String name;
 
+    public float getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(float popularity) {
+        this.popularity = popularity;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Boolean getAdult() {
+        return adult;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
+    }
+
     public String getKnown_for_department() {
         return known_for_department;
     }
