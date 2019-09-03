@@ -77,6 +77,7 @@ public class FullImageActivity extends AppCompatActivity {
         full_img.setDrawingCacheEnabled(true);
         Bitmap b = full_img.getDrawingCache();
         MediaStore.Images.Media.insertImage(getContentResolver(), b, picturePath, "");
+        Toast.makeText(FullImageActivity.this, "Saved to gallery", Toast.LENGTH_LONG).show();
     }
 
     public class loadImage extends AsyncTask<String, Void, Bitmap> {
