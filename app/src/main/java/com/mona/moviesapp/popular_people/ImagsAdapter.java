@@ -30,7 +30,6 @@ public class ImagsAdapter extends RecyclerView.Adapter<ImagsAdapter.ViewHolder>{
     private ArrayList<Profiles> profiles;
     private Context context;
 
-    Profiles profile_picture;
     String img_path = "https://image.tmdb.org/t/p/w500/";
     URL ImageUrl = null;
     InputStream inputStream = null;
@@ -56,7 +55,7 @@ public class ImagsAdapter extends RecyclerView.Adapter<ImagsAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
 
         ViewHolder myHolder= (ViewHolder) viewHolder;
-        profile_picture = profiles.get(i);
+        Profiles profile_picture = profiles.get(i);
 
         try {
             profileImg.setImageBitmap(new downloadImages(profileImg).execute(img_path+ profile_picture.getFile_path()).get());

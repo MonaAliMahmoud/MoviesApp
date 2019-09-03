@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -79,19 +80,30 @@ public class PopularDetailsActivity extends AppCompatActivity {
         popularity.setText("Popularity: "+pop);
 
         try {
-            profile.setImageBitmap(new downloadImage(profile).execute(popprofile).get());
+            profile.setImageBitmap(new loadImage(profile).execute(popprofile).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PopularDetailsActivity.this, FullImageActivity.class);
+                Bundle arg = new Bundle();
+                arg.putString("picture_path", popprofile);
+                intent.putExtra("data", arg);
+                startActivity(intent);
+            }
+        });
+
         new popularPhotos().execute("https://api.themoviedb.org/3/person/"+popid+"/images?api_key=bd9eb9f62e484b7b3de4718afb6cd421");
     }
 
-    public class downloadImage extends AsyncTask<String, Void, Bitmap> {
+    public class loadImage extends AsyncTask<String, Void, Bitmap> {
 
-        public downloadImage(ImageView imageView) {
+        public loadImage(ImageView imageView) {
 
         }
 

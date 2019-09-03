@@ -63,7 +63,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         myHolder.popDepart.setText(popularInfo.getKnown_for_department());
         Log.i("Department",popularInfo.getKnown_for_department());
         try {
-            popImg.setImageBitmap(new downloadImages(popImg).execute(img_path+popularInfo.getProfile_path()).get());
+            popImg.setImageBitmap(new loadImages(popImg).execute(img_path+popularInfo.getProfile_path()).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -110,9 +110,9 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         }
     }
 
-    public class downloadImages extends AsyncTask<String, Void, Bitmap>{
+    public class loadImages extends AsyncTask<String, Void, Bitmap>{
 
-        public downloadImages(ImageView imageView) {
+        public loadImages(ImageView imageView) {
 
         }
 

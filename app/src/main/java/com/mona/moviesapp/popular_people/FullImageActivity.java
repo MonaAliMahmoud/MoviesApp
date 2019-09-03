@@ -1,13 +1,21 @@
 package com.mona.moviesapp.popular_people;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.mona.moviesapp.R;
 
@@ -21,8 +29,9 @@ import java.util.concurrent.ExecutionException;
 public class FullImageActivity extends AppCompatActivity {
 
     ImageView full_img;
-    String picturePath;
+    Button saveImg;
 
+    String picturePath;
     URL ImageUrl = null;
     InputStream inputStream = null;
     Bitmap bmImg = null;
@@ -33,6 +42,7 @@ public class FullImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_image);
 
         full_img = findViewById(R.id.fullimg);
+        saveImg = findViewById(R.id.savebtn);
 
         Intent intent = getIntent();
         Bundle bundle =  intent.getBundleExtra("data");
@@ -41,26 +51,37 @@ public class FullImageActivity extends AppCompatActivity {
         }
 
         try {
-            full_img.setImageBitmap(new downloadImage(full_img).execute(picturePath).get());
+            full_img.setImageBitmap(new loadImage(full_img).execute(picturePath).get());
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        try {
-            new downloadImage(full_img).execute(picturePath).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+        saveImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(FullImageActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                        PackageManager.PERMISSION_GRANTED) {
+                }
+                else {
+                    ActivityCompat.requestPermissions(FullImageActivity.this, new String[]
+                            { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+                }
+                saveImageToGallery();
+            }
+        });
     }
 
-    public class downloadImage extends AsyncTask<String, Void, Bitmap> {
+    private void saveImageToGallery(){
+        full_img.setDrawingCacheEnabled(true);
+        Bitmap b = full_img.getDrawingCache();
+        MediaStore.Images.Media.insertImage(getContentResolver(), b, picturePath, "");
+    }
 
-        public downloadImage(ImageView imageView) {
+    public class loadImage extends AsyncTask<String, Void, Bitmap> {
+
+        public loadImage(ImageView imageView) {
 
         }
 
