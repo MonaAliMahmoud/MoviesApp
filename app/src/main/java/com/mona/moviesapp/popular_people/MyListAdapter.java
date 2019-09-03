@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
+
     private ArrayList<PopularInfo> popularList;
     private Context context;
     private LayoutInflater inflater;
@@ -83,7 +84,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            MyListAdapter.this.popImg = (ImageView) itemView.findViewById(R.id.popimg);
+            popImg = (ImageView) itemView.findViewById(R.id.popimg);
             this.popName = (TextView) itemView.findViewById(R.id.popnametxt);
             Log.i("Name", popName.toString());
             popDepart = (TextView) itemView.findViewById(R.id.popdeparttxt);
