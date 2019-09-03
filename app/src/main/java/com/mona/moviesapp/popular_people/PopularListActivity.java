@@ -2,10 +2,11 @@ package com.mona.moviesapp.popular_people;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -24,17 +25,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class PopularListActivity extends AppCompatActivity {
 
     SwipeRefreshLayout swipeRefresh;
     RecyclerView recyclerView;
+    LinearLayoutManager layoutManager;
 
     MyListAdapter adapter;
+    Handler handler;
 
     ArrayList<PopularInfo> popularInfos;
     String popularurl;
+
+    private int pagenum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +48,32 @@ public class PopularListActivity extends AppCompatActivity {
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
-        popularurl= "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421";
+        layoutManager = new LinearLayoutManager(this);
+
+        popularurl= "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
+        handler = new Handler();
 
         new JsonData().execute(popularurl);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int currentItems = layoutManager.getChildCount();
+                int scrolledItems = layoutManager.findFirstCompletelyVisibleItemPosition();
+                int totalItems = layoutManager.getItemCount();
+                if(currentItems + scrolledItems == totalItems) {
+                    pagenum++;
+                    String newUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
+                    new JsonData().execute(newUrl);
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -124,7 +151,7 @@ public class PopularListActivity extends AppCompatActivity {
                 adapter = new MyListAdapter(popularInfos, PopularListActivity.this);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(PopularListActivity.this));
+                recyclerView.setLayoutManager(layoutManager);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -136,6 +163,5 @@ public class PopularListActivity extends AppCompatActivity {
         popularInfos.clear();
         adapter.notifyDataSetChanged();
         new JsonData().execute(popularurl);
-
     }
 }

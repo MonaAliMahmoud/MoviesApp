@@ -38,6 +38,10 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     Bitmap bmImg = null;
     ImageView popImg = null;
 
+
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
+
     public MyListAdapter(ArrayList<PopularInfo> popularList, Context context) {
         this.context = context;
         inflater= LayoutInflater.from(context);
@@ -50,7 +54,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
         View listItem= layoutInflater.inflate(R.layout.list_item, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
-
         return viewHolder;
     }
 
@@ -117,16 +120,17 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
         }
 
         @Override
-        protected Bitmap doInBackground(String... strings) {
+        protected Bitmap doInBackground(String... urls) {
+
+            HttpURLConnection httpURLConnection = null;
 
             try {
-                ImageUrl = new URL(strings[0]);
+                ImageUrl = new URL(urls[0]);
                 Log.i("URL",ImageUrl.toString());
 
-                HttpURLConnection conn = (HttpURLConnection) ImageUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                inputStream = conn.getInputStream();
+                httpURLConnection = (HttpURLConnection) ImageUrl.openConnection();
+                httpURLConnection.connect();
+                inputStream = httpURLConnection.getInputStream();
                 bmImg = BitmapFactory.decodeStream(inputStream);
 
             } catch (MalformedURLException e) {
