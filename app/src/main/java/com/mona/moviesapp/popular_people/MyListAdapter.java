@@ -120,6 +120,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             HttpURLConnection httpURLConnection = null;
 
             try {
+                ImageUrl = new URL(urls[0]);
                 Log.i("URL",ImageUrl.toString());
 
                 httpURLConnection = (HttpURLConnection) ImageUrl.openConnection();
