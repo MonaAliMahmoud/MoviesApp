@@ -28,7 +28,7 @@ import java.util.concurrent.ExecutionException;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> {
 
-    private ArrayList<PopularInfo> popularList;
+    private ArrayList<PopularInfo> info;
     private Context context;
     private LayoutInflater inflater;
     PopularInfo popularInfo = null;
@@ -38,21 +38,16 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     Bitmap bmImg = null;
     ImageView popImg = null;
 
-
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
-
-    public MyListAdapter(ArrayList<PopularInfo> popularList, Context context) {
+    public MyListAdapter(ArrayList<PopularInfo> info, Context context) {
         this.context = context;
-        inflater= LayoutInflater.from(context);
-        this.popularList = popularList;
+        this.info = info;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        View listItem= layoutInflater.inflate(R.layout.list_item, viewGroup, false);
+        inflater = LayoutInflater.from(viewGroup.getContext());
+        View listItem= inflater.inflate(R.layout.list_item, viewGroup, false);
         ViewHolder viewHolder = new ViewHolder(listItem);
         return viewHolder;
     }
@@ -60,7 +55,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         ViewHolder myHolder= (ViewHolder) viewHolder;
-        popularInfo = popularList.get(i);
+        popularInfo = info.get(i);
         myHolder.popName.setText(popularInfo.getName());
         Log.i("Name",popularInfo.getName());
         myHolder.popDepart.setText(popularInfo.getKnown_for_department());
@@ -78,7 +73,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return popularList.size();
+        return info.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -125,7 +120,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
             HttpURLConnection httpURLConnection = null;
 
             try {
-                ImageUrl = new URL(urls[0]);
                 Log.i("URL",ImageUrl.toString());
 
                 httpURLConnection = (HttpURLConnection) ImageUrl.openConnection();

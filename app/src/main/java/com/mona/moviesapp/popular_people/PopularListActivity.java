@@ -35,7 +35,7 @@ public class PopularListActivity extends AppCompatActivity {
     MyListAdapter adapter;
     Handler handler;
 
-    ArrayList<PopularInfo> popularInfos;
+    ArrayList<PopularInfo> popularInfos = new ArrayList<>();
     String popularurl;
 
     private int pagenum = 1;
@@ -51,7 +51,9 @@ public class PopularListActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
 
         popularurl= "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
-        handler = new Handler();
+
+        adapter = new MyListAdapter(popularInfos, PopularListActivity.this);
+        recyclerView.setAdapter(adapter);
 
         new JsonData().execute(popularurl);
 
@@ -68,11 +70,6 @@ public class PopularListActivity extends AppCompatActivity {
                     new JsonData().execute(newUrl);
                 }
             }
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
         });
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -84,7 +81,7 @@ public class PopularListActivity extends AppCompatActivity {
                         swipeRefresh.setRefreshing(false);
                         refresh();
                     }
-                }, 2000);
+                }, 1000);
             }
         });
     }
@@ -134,7 +131,6 @@ public class PopularListActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            popularInfos = new ArrayList<>();
             try {
                 JSONObject popularList = new JSONObject(result);
                 JSONArray popular = popularList.getJSONArray("results");
@@ -148,9 +144,10 @@ public class PopularListActivity extends AppCompatActivity {
                     popularInfos.add(popularInfo);
                 }
 
-                adapter = new MyListAdapter(popularInfos, PopularListActivity.this);
                 recyclerView.setHasFixedSize(true);
-                recyclerView.setAdapter(adapter);
+                recyclerView.setItemViewCacheSize(20);
+                recyclerView.setDrawingCacheEnabled(true);
+                adapter.notifyDataSetChanged();
                 recyclerView.setLayoutManager(layoutManager);
 
             } catch (JSONException e) {
