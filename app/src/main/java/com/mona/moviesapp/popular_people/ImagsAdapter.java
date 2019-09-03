@@ -1,9 +1,11 @@
 package com.mona.moviesapp.popular_people;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -63,6 +65,8 @@ public class ImagsAdapter extends RecyclerView.Adapter<ImagsAdapter.ViewHolder>{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        myHolder.bindData(profile_picture);
     }
 
     @Override
@@ -75,11 +79,23 @@ public class ImagsAdapter extends RecyclerView.Adapter<ImagsAdapter.ViewHolder>{
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             profileImg = (ImageView) itemView.findViewById(R.id.profileimg);
-
+        }
+        private void bindData(final Profiles prof){
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, FullImageActivity.class);
+                    Bundle arg = new Bundle();
+                    arg.putString("picture_path", img_path+prof.getFile_path());
+                    intent.putExtra("data", arg);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
-    public class downloadImages extends AsyncTask<String, Void, Bitmap> {
+    public class downloadImages extends AsyncTask<String, Void, Bitmap>
+    {
 
         public downloadImages(ImageView imageView) {
 

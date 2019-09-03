@@ -4,19 +4,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mona.moviesapp.R;
-import com.mona.moviesapp.popular_people.pojo.PopularInfo;
-import com.mona.moviesapp.popular_people.pojo.PopularProfile;
 import com.mona.moviesapp.popular_people.pojo.Profiles;
 
 import org.json.JSONArray;
@@ -47,8 +43,6 @@ public class PopularDetailsActivity extends AppCompatActivity {
     URL ImageUrl = null;
     InputStream inputStream = null;
     Bitmap bmImg = null;
-
-    GridLayoutManager gridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
