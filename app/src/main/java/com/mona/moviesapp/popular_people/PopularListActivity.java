@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,7 +42,8 @@ public class PopularListActivity extends AppCompatActivity {
 
     ArrayList<PopularInfo> popularInfos = new ArrayList<>();
     String popularurl;
-
+    private String searchString;
+    private String newUrl;
     private int pagenum = 1;
 
     @Override
@@ -53,6 +55,7 @@ public class PopularListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
+        searchString="https://api.themoviedb.org/3/search/person?api_key=bd9eb9f62e484b7b3de4718afb6cd421&query=";
 
         popularurl= "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
 
@@ -70,7 +73,7 @@ public class PopularListActivity extends AppCompatActivity {
                 int totalItems = layoutManager.getItemCount();
                 if(currentItems + scrolledItems == totalItems) {
                     pagenum++;
-                    String newUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
+                    newUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
                     new JsonData().execute(newUrl);
                 }
             }
@@ -91,22 +94,43 @@ public class PopularListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.search,menu);
         MenuItem item = menu.findItem(R.id.search_item);
-        SearchView searchView= (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        final SearchView searchView= (SearchView) item.getActionView();
+
+        MenuItemCompat.setOnActionExpandListener(item, new MenuItemCompat.OnActionExpandListener() {
             @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
+            public boolean onMenuItemActionExpand(MenuItem menuItem) {
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String s) {
+                        popularInfos.clear();
+                        if (! s.isEmpty()) {
+                            new JsonData().execute(searchString + s.toLowerCase());
+                        }
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String s) {
+                        popularInfos.clear();
+                        if (searchView.getQuery().length() == 0){
+                            new JsonData().execute("https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page=");
+                        }
+                        return true;
+                    }
+                });
+                return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
+            public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+               // new JsonData().execute("https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum);
+                return true;
             }
         });
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     @SuppressLint("StaticFieldLeak")

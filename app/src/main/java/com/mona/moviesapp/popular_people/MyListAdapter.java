@@ -26,13 +26,13 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder> implements Filterable {
+public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>  {
 
     private ArrayList<PopularInfo> info;
-    private List<PopularInfo> allListInfo;
     private Context context;
     private LayoutInflater inflater;
     PopularInfo popularInfo = null;
@@ -45,7 +45,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     public MyListAdapter(ArrayList<PopularInfo> info, Context context) {
         this.context = context;
         this.info = info;
-        this.allListInfo = new ArrayList<>(info);
     }
 
     @NonNull
@@ -79,11 +78,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return info.size();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
