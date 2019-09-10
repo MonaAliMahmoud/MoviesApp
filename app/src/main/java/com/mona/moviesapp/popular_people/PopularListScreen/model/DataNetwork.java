@@ -1,6 +1,7 @@
 package com.mona.moviesapp.popular_people.PopularListScreen.model;
 
 import android.os.AsyncTask;
+import android.view.Display;
 
 import com.mona.moviesapp.popular_people.PopularListScreen.controller.Controller;
 import com.mona.moviesapp.popular_people.pojo.PopularInfo;
@@ -23,6 +24,11 @@ public class DataNetwork extends AsyncTask<String, String, String>{
     Controller controller;
     URL url = null;
     ArrayList<PopularInfo> popularInfos = new ArrayList<>();
+    Model model;
+
+    public DataNetwork(Model model) {
+        this.model = model;
+    }
 
     @Override
     protected String doInBackground(String... urls)

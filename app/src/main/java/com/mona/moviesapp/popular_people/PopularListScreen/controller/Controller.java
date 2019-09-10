@@ -26,10 +26,11 @@ import java.util.concurrent.ExecutionException;
 public class Controller {
 
     private PopularListActivity popularListActivity;
-    private Model model;
+    private Model model = new Model(this);
 
     public Controller(PopularListActivity popularListActivity) {
         this.popularListActivity = popularListActivity;
+        this.model = model;
     }
 
     public Controller(Model model) {
