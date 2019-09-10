@@ -1,4 +1,4 @@
-package com.mona.moviesapp.popular_people;
+package com.mona.moviesapp.popular_people.PopularListScreen.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mona.moviesapp.R;
+import com.mona.moviesapp.popular_people.PopularDetailsActivity;
+import com.mona.moviesapp.popular_people.PopularListScreen.controller.Controller;
 import com.mona.moviesapp.popular_people.pojo.PopularInfo;
 
 import java.io.IOException;
@@ -26,8 +26,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder>  {
@@ -41,6 +39,8 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     InputStream inputStream = null;
     Bitmap bmImg = null;
     ImageView popImg = null;
+
+    Controller controller;
 
     public MyListAdapter(ArrayList<PopularInfo> info, Context context) {
         this.context = context;
@@ -100,9 +100,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
                     Bundle arg = new Bundle();
                     arg.putString("popName", popularInf.getName());
                     arg.putString("popeDepart", popularInf.getKnown_for_department());
-//                    arg.putBoolean("popAdult", popularInf.getAdult());
-//                    arg.putInt("popGender", popularInf.getGender());
-//                    arg.putFloat("popPopular", popularInf.getPopularity());
                     arg.putString("profile", img_path+popularInf.getProfile_path());
                     arg.putInt("id",popularInf.getId());
                     intent.putExtra("data", arg);
@@ -120,7 +117,6 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
 
         @Override
         protected Bitmap doInBackground(String... urls) {
-
             HttpURLConnection httpURLConnection = null;
 
             try {

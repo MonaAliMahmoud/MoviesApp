@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.mona.moviesapp.popular_people.PopularListActivity;
+import com.mona.moviesapp.popular_people.PopularListScreen.view.PopularListActivity;
 
 public class MainActivity extends AppCompatActivity {
 

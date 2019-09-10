@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".OkHttpActivity" />
         <activity android:name=".HttpURLConnectionActivity" />
-        <activity android:name=".popular_people.PopularListActivity" />
+        <activity android:name=".popular_people.PopularListScreen.view.PopularListActivity" />
     </application>
 
 </manifest>
