@@ -14,12 +14,6 @@ public class DetailsModel {
 
     public void getPopId(int popid){
         String profileUrl = "https://api.themoviedb.org/3/person/"+popid+"/images?api_key=bd9eb9f62e484b7b3de4718afb6cd421";
-        try {
-            imageNetwork.execute(profileUrl).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        imageNetwork.execute(profileUrl);
     }
 }
