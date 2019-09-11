@@ -6,8 +6,6 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.mona.moviesapp.popular_people.FullImageScreen.controller.FullImageController;
-import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController;
-import com.mona.moviesapp.popular_people.PopularDetailsScreen.model.DetailsModel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class ImageNetwork extends AsyncTask<String, Void, Bitmap> {
+public class FullImageNetwork extends AsyncTask<String, Void, Bitmap> {
 
     URL ImageUrl = null;
     FullImageModel fullImageModel;
@@ -23,7 +21,7 @@ public class ImageNetwork extends AsyncTask<String, Void, Bitmap> {
     Bitmap bmImg = null;
     InputStream inputStream= null;
 
-    public ImageNetwork(FullImageModel fullImageModel, FullImageController fullImageController){
+    public FullImageNetwork(FullImageModel fullImageModel, FullImageController fullImageController){
         this.fullImageController = fullImageController;
         this.fullImageModel = fullImageModel;
     }

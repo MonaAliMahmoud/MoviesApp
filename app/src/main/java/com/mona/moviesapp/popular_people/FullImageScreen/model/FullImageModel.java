@@ -2,19 +2,17 @@ package com.mona.moviesapp.popular_people.FullImageScreen.model;
 
 import com.mona.moviesapp.popular_people.FullImageScreen.controller.FullImageController;
 
-import java.util.concurrent.ExecutionException;
-
 public class FullImageModel {
 
     FullImageController fullImageController;
-    ImageNetwork imageNetwork = new ImageNetwork(this, fullImageController);
+    FullImageNetwork fullImageNetwork = new FullImageNetwork(this, fullImageController);
 
     public FullImageModel(FullImageController fullImageController) {
         this.fullImageController = fullImageController;
-        this.imageNetwork = imageNetwork;
+        this.fullImageNetwork = fullImageNetwork;
     }
 
     public void setPicturePath(String picturePath) {
-        imageNetwork.execute(picturePath);
+        fullImageNetwork.execute(picturePath);
     }
 }
