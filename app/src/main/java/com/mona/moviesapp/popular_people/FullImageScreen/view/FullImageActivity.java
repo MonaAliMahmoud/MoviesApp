@@ -33,9 +33,6 @@ public class FullImageActivity extends AppCompatActivity {
     Button saveImg;
 
     String picturePath;
-    URL ImageUrl = null;
-    InputStream inputStream = null;
-    Bitmap bmImg = null;
 
     FullImageController fullImageController;
 
@@ -49,20 +46,8 @@ public class FullImageActivity extends AppCompatActivity {
 
         fullImageController = new FullImageController(this);
 
-        Intent intent = getIntent();
-        Bundle bundle =  intent.getBundleExtra("data");
-        if(!bundle.isEmpty()) {
-            picturePath = bundle.getString("picture_path");
-        }
-
+        picturePath = fullImageController.setPicturePath();
         fullImageController.getPicturePath(picturePath);
-//        try {
-//            full_img.setImageBitmap(new loadImage(full_img).execute(picturePath).get());
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
 
         saveImg.setOnClickListener(new View.OnClickListener() {
             @Override

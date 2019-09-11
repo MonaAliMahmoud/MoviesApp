@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.mona.moviesapp.R;
 import com.mona.moviesapp.popular_people.FullImageScreen.view.FullImageActivity;
 import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController;
+import com.mona.moviesapp.popular_people.pojo.PopularInfo;
 import com.mona.moviesapp.popular_people.pojo.Profiles;
 
 import java.io.InputStream;
@@ -25,16 +26,8 @@ public class PopularDetailsActivity extends AppCompatActivity {
     private ImageView profile;
     private RecyclerView gridphotos;
 
-    private String popname, popdepart, popprofile;
-    private Boolean popadult;
-    private int popgender, popid;
-    private float poppopular;
-
-    URL ImageUrl = null;
-    InputStream inputStream = null;
-    Bitmap bmImg = null;
-
     DetailsController detailsController;
+    PopularInfo popularInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,28 +43,14 @@ public class PopularDetailsActivity extends AppCompatActivity {
         gridphotos = findViewById(R.id.photos);
 
         detailsController = new DetailsController(this);
-        Intent intent = getIntent();
-        Bundle bundle =  intent.getBundleExtra("data");
 
-        if(!bundle.isEmpty()){
-            popname = bundle.getString("popName");
-            popdepart = bundle.getString("popeDepart");
-            popadult = bundle.getBoolean("popAdult");
-            popgender = bundle.getInt("popGender");
-            poppopular = bundle.getFloat("popPopular");
-            popprofile = bundle.getString("profile");
-            popid = bundle.getInt("id");
-        }
-        String ad = Boolean.toString(popadult);
-        String pop = Float.toString(poppopular);
-        String gend = Float.toString(popgender);
-        name.setText(popname);
-        depart.setText(popdepart);
-        adult.setText("Adult: "+ad);
-        gender.setText("Gender: "+gend);
-        popularity.setText("Popularity: "+pop);
-
-        detailsController.setPopId(popid);
+        popularInfo = detailsController.setData();
+        name.setText(popularInfo.getName());
+        depart.setText(popularInfo.getKnown_for_department());
+        adult.setText("Adult: "+ popularInfo.getAdult());
+        gender.setText("Gender: "+ popularInfo.getGender());
+        popularity.setText("Popularity: "+ popularInfo.getPopularity());
+        detailsController.setPopId(popularInfo.getId());
 
 //        try {
 //           profile.setImageBitmap(new loadImage(profile).execute(popprofile).get());
@@ -86,7 +65,7 @@ public class PopularDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(PopularDetailsActivity.this, FullImageActivity.class);
                 Bundle arg = new Bundle();
-                arg.putString("picture_path", popprofile);
+                arg.putString("picture_path", detailsController.setData().getProfile_path());
                 intent.putExtra("data", arg);
                 startActivity(intent);
             }
@@ -95,10 +74,9 @@ public class PopularDetailsActivity extends AppCompatActivity {
 //        new popularPhotos().execute("https://api.themoviedb.org/3/person/"+popid+"/images?api_key=bd9eb9f62e484b7b3de4718afb6cd421");
     }
 
-    public int getPopId(){
-        return popid;
-    }
+    public void setImageView(){
 
+    }
     public void setImage(Bitmap bitmap){
         if(bitmap != null){
             profile.setImageBitmap(bitmap);
