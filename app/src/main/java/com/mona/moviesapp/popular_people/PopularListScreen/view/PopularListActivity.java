@@ -13,12 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.mona.moviesapp.R;
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.Controller;
-import com.mona.moviesapp.popular_people.PopularListScreen.model.Model;
+import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController;
 import com.mona.moviesapp.popular_people.pojo.PopularInfo;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class PopularListActivity extends AppCompatActivity {
 
@@ -30,7 +28,7 @@ public class PopularListActivity extends AppCompatActivity {
 
     private int pagenum = 1;
 
-    Controller controller;
+    ListController listController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +39,9 @@ public class PopularListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
-        controller = new Controller(this);
-//        controller.created();
-        controller.callJson(pagenum);
-//        new JsonData().execute(popularurl);
+
+        listController = new ListController(this);
+        listController.callJson(pagenum);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

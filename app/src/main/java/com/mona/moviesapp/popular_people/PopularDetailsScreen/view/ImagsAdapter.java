@@ -1,4 +1,4 @@
-package com.mona.moviesapp.popular_people;
+package com.mona.moviesapp.popular_people.PopularDetailsScreen.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.mona.moviesapp.R;
+import com.mona.moviesapp.popular_people.FullImageActivity;
 import com.mona.moviesapp.popular_people.pojo.Profiles;
 
 import java.io.IOException;

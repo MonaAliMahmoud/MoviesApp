@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_margin="20dp"
-    tools:context=".popular_people.PopularDetailsActivity">
+    tools:context=".popular_people.PopularDetailsScreen.view.PopularDetailsActivity">
 
 
     <ImageView

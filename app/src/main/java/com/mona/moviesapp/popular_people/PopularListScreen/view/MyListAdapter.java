@@ -16,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mona.moviesapp.R;
-import com.mona.moviesapp.popular_people.PopularDetailsActivity;
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.Controller;
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.view.PopularDetailsActivity;
+import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController;
 import com.mona.moviesapp.popular_people.pojo.PopularInfo;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
     Bitmap bmImg = null;
     ImageView popImg = null;
 
-    Controller controller;
+    ListController listController;
 
     public MyListAdapter(ArrayList<PopularInfo> info, Context context) {
         this.context = context;

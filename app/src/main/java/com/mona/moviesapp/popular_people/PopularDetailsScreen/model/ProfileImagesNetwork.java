@@ -1,9 +1,9 @@
-package com.mona.moviesapp.popular_people.PopularListScreen.model;
+package com.mona.moviesapp.popular_people.PopularDetailsScreen.model;
 
 import android.os.AsyncTask;
 
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController;
-import com.mona.moviesapp.popular_people.pojo.PopularInfo;
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController;
+import com.mona.moviesapp.popular_people.pojo.Profiles;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,21 +18,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class DataNetwork extends AsyncTask<String, String, String>{
+public class ProfileImagesNetwork extends AsyncTask<String, String, String> {
 
-    URL url = null;
-    ArrayList<PopularInfo> popularInfos = new ArrayList<>();
-    ListModel listModel;
-    private ListController listController;
+    DetailsModel detailsModel;
+    DetailsController detailsController;
 
-    public DataNetwork(ListModel listModel, ListController listController) {
-        this.listModel = listModel;
-        this.listController = listController;
+    public ProfileImagesNetwork(DetailsModel detailsModel, DetailsController detailsController) {
+        this.detailsModel = detailsModel;
+        this.detailsController = detailsController;
     }
 
     @Override
-    protected String doInBackground(String... urls)
-    {
+    protected String doInBackground(String... urls) {
 
         HttpURLConnection httpURLConnection = null;
         BufferedReader reader = null;
@@ -72,21 +69,23 @@ public class DataNetwork extends AsyncTask<String, String, String>{
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
+
+        ArrayList<Profiles> profiles = new ArrayList<>();
         try {
-            JSONObject popularList = new JSONObject(result);
-            JSONArray popular = popularList.getJSONArray("results");
-            for (int i = 0; i < popular.length(); i++) {
-                JSONObject popularResult = popular.getJSONObject(i);
-                PopularInfo popularInfo = new PopularInfo();
-                popularInfo.setName(popularResult.getString("name"));
-                popularInfo.setKnown_for_department(popularResult.getString("known_for_department"));
-                popularInfo.setProfile_path(popularResult.getString("profile_path"));
-                popularInfo.setId(popularResult.getInt("id"));
-                popularInfos.add(popularInfo);
+            JSONObject popular_profiles = new JSONObject(result);
+            JSONArray pop_profiles = popular_profiles.getJSONArray("profiles");
+            for (int i = 0; i< pop_profiles.length(); i++) {
+                JSONObject profileResult = pop_profiles.getJSONObject(i);
+                Profiles pictures = new Profiles();
+                pictures.setFile_path(profileResult.getString("file_path"));
+                profiles.add(pictures);
             }
-            listModel.listController.conRecycle(popularInfos);
+
+            detailsModel.detailsController.conGridRecycle(profiles);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 }
+
