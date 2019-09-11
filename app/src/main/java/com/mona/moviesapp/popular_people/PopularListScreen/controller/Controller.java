@@ -51,8 +51,9 @@ public class Controller {
 //        model.getDataNetwork().execute();
 //    }
 
-    public void conRecycle(){
-        popularListActivity.configrecycleview();
+    public void conRecycle(ArrayList<PopularInfo> popularInfos){
+
+        popularListActivity.configrecycleview(popularInfos);
     }
 
     public void callJson(int pagenum){

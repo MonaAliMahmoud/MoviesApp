@@ -27,13 +27,8 @@ public class PopularListActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
 
     MyListAdapter adapter;
-    Handler handler;
 
-    ArrayList<PopularInfo> popularInfos = new ArrayList<>();
-    private String searchString;
-    private String newUrl;
     private int pagenum = 1;
-//    String popularurl ="https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
 
     Controller controller;
 
@@ -46,8 +41,6 @@ public class PopularListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
-        adapter = new MyListAdapter(popularInfos, PopularListActivity.this);
-        recyclerView.setAdapter(adapter);
         controller = new Controller(this);
 //        controller.created();
         controller.callJson(pagenum);
@@ -62,7 +55,7 @@ public class PopularListActivity extends AppCompatActivity {
                 int totalItems = layoutManager.getItemCount();
                 if(currentItems + scrolledItems == totalItems) {
                     pagenum++;
-                    newUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
+//                    newUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
 //                    new JsonData().execute(newUrl);
                 }
             }
@@ -94,7 +87,7 @@ public class PopularListActivity extends AppCompatActivity {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
                     public boolean onQueryTextSubmit(String s) {
-                        popularInfos.clear();
+//                        popularInfos.clear();
                         if (! s.isEmpty()) {
 //                            new JsonData().execute(searchString + s.toLowerCase());
 
@@ -104,7 +97,7 @@ public class PopularListActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onQueryTextChange(String s) {
-                        popularInfos.clear();
+//                        popularInfos.clear();
                         if (searchView.getQuery().length() == 0){
 //                            new JsonData().execute("https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page=");
                         }
@@ -124,12 +117,14 @@ public class PopularListActivity extends AppCompatActivity {
     }
 
     public void refresh(){
-        popularInfos.clear();
+//        popularInfos.clear();
         adapter.notifyDataSetChanged();
 //        new JsonData().execute(popularurl);
     }
 
-    public void configrecycleview(){
+    public void configrecycleview(ArrayList<PopularInfo> popularInfos){
+        adapter = new MyListAdapter(popularInfos, PopularListActivity.this);
+        recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(20);
         recyclerView.setDrawingCacheEnabled(true);

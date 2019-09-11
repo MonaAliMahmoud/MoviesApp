@@ -7,9 +7,8 @@ import java.util.ArrayList;
 
 public class Model {
 
-    DataNetwork dataNetwork = new DataNetwork(this);
-    Model model;
     Controller controller ;
+    DataNetwork dataNetwork = new DataNetwork(this, controller);
 
     public Model(Controller controller) {
         this.controller = controller;
@@ -20,14 +19,6 @@ public class Model {
     String popularurl= "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
 
     public Model(DataNetwork dataNetwork) {
-        this.dataNetwork = dataNetwork;
-    }
-
-    public DataNetwork getDataNetwork() {
-        return dataNetwork;
-    }
-
-    public void setDataNetwork(DataNetwork dataNetwork) {
         this.dataNetwork = dataNetwork;
     }
 

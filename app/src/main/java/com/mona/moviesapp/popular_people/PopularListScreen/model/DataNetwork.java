@@ -21,13 +21,14 @@ import java.util.ArrayList;
 
 public class DataNetwork extends AsyncTask<String, String, String>{
 
-    Controller controller;
     URL url = null;
     ArrayList<PopularInfo> popularInfos = new ArrayList<>();
     Model model;
+    private Controller controller;
 
-    public DataNetwork(Model model) {
+    public DataNetwork(Model model,  Controller controller) {
         this.model = model;
+        this.controller = controller;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class DataNetwork extends AsyncTask<String, String, String>{
         BufferedReader reader = null;
 
         try {
-            url = new URL(urls[0]);
+            URL url = new URL(urls[0]);
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.connect();
 
@@ -84,7 +85,7 @@ public class DataNetwork extends AsyncTask<String, String, String>{
                 popularInfo.setId(popularResult.getInt("id"));
                 popularInfos.add(popularInfo);
             }
-            controller.conRecycle();
+            model.controller.conRecycle(popularInfos);
         } catch (JSONException e) {
             e.printStackTrace();
         }
