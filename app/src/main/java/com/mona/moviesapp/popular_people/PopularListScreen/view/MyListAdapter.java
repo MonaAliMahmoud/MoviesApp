@@ -97,6 +97,9 @@ public class MyListAdapter extends RecyclerView.Adapter<MyListAdapter.ViewHolder
                 public void onClick(View v) {
 
                     Intent intent = new Intent(context, PopularDetailsActivity.class);
+
+//                    listController.getData(popularInf, intent);
+
                     Bundle arg = new Bundle();
                     arg.putString("popName", popularInf.getName());
                     arg.putString("popeDepart", popularInf.getKnown_for_department());

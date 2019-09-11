@@ -29,6 +29,7 @@ public class PopularListActivity extends AppCompatActivity {
     private int pagenum = 1;
 
     ListController listController;
+    ArrayList<PopularInfo> popularInfos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class PopularListActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
-
+        configRecycleview(popularInfos);
         listController = new ListController(this);
         listController.callJson(pagenum);
 
@@ -125,7 +126,18 @@ public class PopularListActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(20);
         recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+    public void changeList(){
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
         adapter.notifyDataSetChanged();
         recyclerView.setLayoutManager(layoutManager);
+    }
+
+    public  void addPopularList(PopularInfo popularInfo){
+        popularInfos.add(popularInfo);
     }
 }

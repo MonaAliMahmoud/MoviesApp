@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class DataNetwork extends AsyncTask<String, String, String>{
 
     URL url = null;
-    ArrayList<PopularInfo> popularInfos = new ArrayList<>();
     ListModel listModel;
     private ListController listController;
 
@@ -82,9 +81,9 @@ public class DataNetwork extends AsyncTask<String, String, String>{
                 popularInfo.setKnown_for_department(popularResult.getString("known_for_department"));
                 popularInfo.setProfile_path(popularResult.getString("profile_path"));
                 popularInfo.setId(popularResult.getInt("id"));
-                popularInfos.add(popularInfo);
+                listModel.listController.getPopularList(popularInfo);
             }
-            listModel.listController.conRecycle(popularInfos);
+            listModel.listController.changeAdapter();
         } catch (JSONException e) {
             e.printStackTrace();
         }
