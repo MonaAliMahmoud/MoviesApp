@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.mona.moviesapp.R;
-import com.mona.moviesapp.popular_people.FullImageActivity;
+import com.mona.moviesapp.popular_people.FullImageScreen.view.FullImageActivity;
 import com.mona.moviesapp.popular_people.pojo.Profiles;
 
 import java.io.IOException;

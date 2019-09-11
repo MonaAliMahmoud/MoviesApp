@@ -1,4 +1,4 @@
-package com.mona.moviesapp.popular_people;
+package com.mona.moviesapp.popular_people.FullImageScreen.view;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mona.moviesapp.R;
+import com.mona.moviesapp.popular_people.FullImageScreen.controller.FullImageController;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,6 +37,8 @@ public class FullImageActivity extends AppCompatActivity {
     InputStream inputStream = null;
     Bitmap bmImg = null;
 
+    FullImageController fullImageController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,19 +47,22 @@ public class FullImageActivity extends AppCompatActivity {
         full_img = findViewById(R.id.fullimg);
         saveImg = findViewById(R.id.savebtn);
 
+        fullImageController = new FullImageController(this);
+
         Intent intent = getIntent();
         Bundle bundle =  intent.getBundleExtra("data");
         if(!bundle.isEmpty()) {
             picturePath = bundle.getString("picture_path");
         }
 
-        try {
-            full_img.setImageBitmap(new loadImage(full_img).execute(picturePath).get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        fullImageController.getPicturePath(picturePath);
+//        try {
+//            full_img.setImageBitmap(new loadImage(full_img).execute(picturePath).get());
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         saveImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,42 +86,12 @@ public class FullImageActivity extends AppCompatActivity {
         Toast.makeText(FullImageActivity.this, "Saved to gallery", Toast.LENGTH_LONG).show();
     }
 
-    public class loadImage extends AsyncTask<String, Void, Bitmap> {
-
-        public loadImage(ImageView imageView) {
-
+    public void setImage(Bitmap bitmap) {
+        if(bitmap != null){
+            full_img.setImageBitmap(bitmap);
         }
-
-        @Override
-        protected Bitmap doInBackground(String... strings) {
-
-            try {
-                ImageUrl = new URL(strings[0]);
-                Log.i("URL",ImageUrl.toString());
-
-                HttpURLConnection conn = (HttpURLConnection) ImageUrl.openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                inputStream = conn.getInputStream();
-                bmImg = BitmapFactory.decodeStream(inputStream);
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bmImg;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if(bitmap != null){
-                full_img.setImageBitmap(bitmap);
-            }
-            else{
-                full_img.setImageResource(R.drawable.ic_launcher_background);
-            }
+        else{
+            full_img.setImageResource(R.drawable.ic_launcher_background);
         }
     }
 }

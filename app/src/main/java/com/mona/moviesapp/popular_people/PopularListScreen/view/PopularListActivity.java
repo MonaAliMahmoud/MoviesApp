@@ -52,6 +52,7 @@ public class PopularListActivity extends AppCompatActivity {
                 int totalItems = layoutManager.getItemCount();
                 if(currentItems + scrolledItems == totalItems) {
                     pagenum++;
+                    listController.callJson(pagenum);
 //                    newUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
 //                    new JsonData().execute(newUrl);
                 }
@@ -87,7 +88,6 @@ public class PopularListActivity extends AppCompatActivity {
 //                        popularInfos.clear();
                         if (! s.isEmpty()) {
 //                            new JsonData().execute(searchString + s.toLowerCase());
-
                         }
                         return true;
                     }
@@ -119,7 +119,7 @@ public class PopularListActivity extends AppCompatActivity {
 //        new JsonData().execute(popularurl);
     }
 
-    public void configrecycleview(ArrayList<PopularInfo> popularInfos){
+    public void configRecycleview(ArrayList<PopularInfo> popularInfos){
         adapter = new MyListAdapter(popularInfos, PopularListActivity.this);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

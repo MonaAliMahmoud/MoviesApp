@@ -2,36 +2,22 @@ package com.mona.moviesapp.popular_people.PopularDetailsScreen.view;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mona.moviesapp.R;
-import com.mona.moviesapp.popular_people.FullImageActivity;
+import com.mona.moviesapp.popular_people.FullImageScreen.view.FullImageActivity;
 import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController;
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController;
 import com.mona.moviesapp.popular_people.pojo.Profiles;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class PopularDetailsActivity extends AppCompatActivity {
 

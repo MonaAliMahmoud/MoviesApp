@@ -41,7 +41,7 @@ public class ListController {
 
     public void conRecycle(ArrayList<PopularInfo> popularInfos){
 
-        popularListActivity.configrecycleview(popularInfos);
+        popularListActivity.configRecycleview(popularInfos);
     }
 
     public void callJson(int pagenum){

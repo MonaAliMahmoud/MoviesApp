@@ -7,6 +7,8 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.mona.moviesapp.R;
+import com.mona.moviesapp.popular_people.FullImageScreen.controller.FullImageController;
+import com.mona.moviesapp.popular_people.FullImageScreen.model.FullImageModel;
 import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController;
 import com.mona.moviesapp.popular_people.pojo.PopularInfo;
 
@@ -20,19 +22,25 @@ import java.util.ArrayList;
 public class ImageNetwork extends AsyncTask<String, Void, Bitmap> {
 
     URL ImageUrl = null;
-    ArrayList<PopularInfo> popularInfos = new ArrayList<>();
     DetailsModel detailsModel;
     private DetailsController detailsController;
+
+    FullImageModel fullImageModel;
+    FullImageController fullImageController;
     Bitmap bmImg = null;
     InputStream inputStream= null;
 
     public ImageNetwork(ImageView imageView) {
-
     }
 
     public ImageNetwork(DetailsModel detailsModel, DetailsController detailsController) {
         this.detailsController = detailsController;
         this.detailsModel = detailsModel;
+    }
+
+    public ImageNetwork(FullImageModel fullImageModel, FullImageController fullImageController){
+        this.fullImageController = fullImageController;
+        this.fullImageModel = fullImageModel;
     }
 
     @Override

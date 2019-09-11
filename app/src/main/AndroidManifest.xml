@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".popular_people.FullImageActivity"></activity>
+        <activity android:name=".popular_people.FullImageScreen.view.FullImageActivity"></activity>
         <activity android:name=".popular_people.PopularDetailsScreen.view.PopularDetailsActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
