@@ -12,7 +12,6 @@ public class ListController {
     private ListModel listModel = new ListModel(this);
 
     String img_path = "https://image.tmdb.org/t/p/w500/";
-    String searchString="https://api.themoviedb.org/3/search/person?api_key=bd9eb9f62e484b7b3de4718afb6cd421&query=";
 
     public ListController(PopularListActivity popularListActivity) {
         this.popularListActivity = popularListActivity;
@@ -20,7 +19,7 @@ public class ListController {
     }
 
     public void conRecycle(ArrayList<PopularInfo> popularInfos){
-        popularListActivity.configRecycleview(popularInfos);
+        popularListActivity.configRecycleView(popularInfos);
     }
 
     public void changeAdapter(){
@@ -34,6 +33,11 @@ public class ListController {
     public void callJson(int pagenum){
         String popularurl= "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum;
         listModel.geturl(popularurl);
+    }
+
+    public void searchingCall(String searchStr){
+        String searchUrl="https://api.themoviedb.org/3/search/person?api_key=bd9eb9f62e484b7b3de4718afb6cd421&query="+searchStr;
+        listModel.geturl(searchUrl);
     }
 
 //    public Intent getData(PopularInfo popularInf){

@@ -13,6 +13,7 @@ public class ListModel {
     }
 
     public void geturl(String popularurl){
+        DataNetwork dataNetwork = new DataNetwork(this, listController);
         dataNetwork.execute(popularurl);
     }
 }
