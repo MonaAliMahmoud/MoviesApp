@@ -25,19 +25,17 @@ public class PopularListActivity extends AppCompatActivity {
     LinearLayoutManager layoutManager;
 
     MyListAdapter adapter;
-
-    private int pagenum = 1;
-
     ListController listController;
     ArrayList<PopularInfo> popularInfos = new ArrayList<>();
+    private int pagenum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_list);
 
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        swipeRefresh = findViewById(R.id.swipe_refresh);
+        recyclerView = findViewById(R.id.my_recycler_view);
 
         layoutManager = new LinearLayoutManager(this);
         configRecycleView(popularInfos);
@@ -65,7 +63,7 @@ public class PopularListActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipeRefresh.setRefreshing(false);
-                        refresh();
+                        listController.callJson(pagenum);
                     }
                 }, 1000);
             }
@@ -105,17 +103,10 @@ public class PopularListActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem menuItem) {
-               // new JsonData().execute("https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page="+pagenum);
                 return true;
             }
         });
         return true;
-    }
-
-    public void refresh(){
-//        popularInfos.clear();
-//        adapter.notifyDataSetChanged();
-        listController.callJson(pagenum);
     }
 
     public void configRecycleView(ArrayList<PopularInfo> popularInfos){

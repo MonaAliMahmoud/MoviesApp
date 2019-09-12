@@ -16,11 +16,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class DataNetwork extends AsyncTask<String, String, String>{
 
-    URL url = null;
     ListModel listModel;
     private ListController listController;
 
@@ -32,7 +30,6 @@ public class DataNetwork extends AsyncTask<String, String, String>{
     @Override
     protected String doInBackground(String... urls)
     {
-
         HttpURLConnection httpURLConnection = null;
         BufferedReader reader = null;
 
