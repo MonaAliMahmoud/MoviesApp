@@ -16,7 +16,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class ProfileImagesNetwork extends AsyncTask<String, String, String> {
 
@@ -70,7 +69,6 @@ public class ProfileImagesNetwork extends AsyncTask<String, String, String> {
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
 
-        ArrayList<Profiles> profiles = new ArrayList<>();
         try {
             JSONObject popular_profiles = new JSONObject(result);
             JSONArray pop_profiles = popular_profiles.getJSONArray("profiles");
@@ -78,10 +76,9 @@ public class ProfileImagesNetwork extends AsyncTask<String, String, String> {
                 JSONObject profileResult = pop_profiles.getJSONObject(i);
                 Profiles pictures = new Profiles();
                 pictures.setFile_path(profileResult.getString("file_path"));
-                profiles.add(pictures);
+                detailsModel.detailsController.getPopularDetails(pictures);
             }
-
-            detailsModel.detailsController.conGridRecycle(profiles);
+            detailsModel.detailsController.conGridRecycle();
 
         } catch (JSONException e) {
             e.printStackTrace();

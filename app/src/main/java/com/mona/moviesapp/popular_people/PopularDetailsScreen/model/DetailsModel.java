@@ -2,18 +2,24 @@ package com.mona.moviesapp.popular_people.PopularDetailsScreen.model;
 
 import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController;
 
-import java.util.concurrent.ExecutionException;
-
 public class DetailsModel {
     DetailsController detailsController;
     ImageNetwork imageNetwork = new ImageNetwork(this, detailsController);
+    ProfileImagesNetwork profileImagesNetwork = new ProfileImagesNetwork(this, detailsController);
 
     public DetailsModel(DetailsController detailsController) {
         this.detailsController = detailsController;
+        this.imageNetwork = imageNetwork;
+        this.profileImagesNetwork = profileImagesNetwork;
     }
 
-    public void getPopId(int popid){
-        String profileUrl = "https://api.themoviedb.org/3/person/"+popid+"/images?api_key=bd9eb9f62e484b7b3de4718afb6cd421";
-        imageNetwork.execute(profileUrl);
+    public void getPopProfiles(String profileUrl){
+        ProfileImagesNetwork profileImagesNetwork = new ProfileImagesNetwork(this, detailsController);
+        profileImagesNetwork.execute(profileUrl);
+    }
+
+    public void setPopImage(String popProfile){
+        ImageNetwork imageNetwork = new ImageNetwork(this, detailsController);
+        imageNetwork.execute(popProfile);
     }
 }
