@@ -23,9 +23,9 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
 
     lateinit var swipeRefresh: SwipeRefreshLayout
     lateinit var recyclerView: RecyclerView
-    lateinit var layoutManager: LinearLayoutManager
+    lateinit var listlayoutManager: LinearLayoutManager
 
-    lateinit var adapter: MyListAdapter
+    lateinit var listAdapter: MyListAdapter
     var listPresenter: ListPresenter? = null
     internal var popularInfos = ArrayList<PopularInfo>()
     private var pagenum = 1
@@ -37,7 +37,7 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
         swipeRefresh = findViewById(R.id.swipe_refresh)
         recyclerView = findViewById(R.id.my_recycler_view)
 
-        layoutManager = LinearLayoutManager(this)
+        listlayoutManager = LinearLayoutManager(this)
         configRecycleView(popularInfos)
 
         listPresenter = ListPresenter(this, ListModel())
@@ -46,9 +46,9 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val currentItems = layoutManager.childCount
-                val scrolledItems = layoutManager.findFirstCompletelyVisibleItemPosition()
-                val totalItems = layoutManager.itemCount
+                val currentItems = listlayoutManager.childCount
+                val scrolledItems = listlayoutManager.findFirstCompletelyVisibleItemPosition()
+                val totalItems = listlayoutManager.itemCount
                 if (currentItems + scrolledItems == totalItems) {
                     pagenum++
                     listPresenter!!.callJson(pagenum)
@@ -99,20 +99,20 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
     }
 
     override fun configRecycleView(popularInfos: ArrayList<PopularInfo>) {
-        adapter = MyListAdapter(popularInfos, this@PopularListActivity)
-        recyclerView.adapter = adapter
+        listAdapter = MyListAdapter(popularInfos, this@PopularListActivity)
+        recyclerView.adapter = listAdapter
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20)
         recyclerView.isDrawingCacheEnabled = true
-        recyclerView.layoutManager = layoutManager
+        recyclerView.layoutManager = listlayoutManager
     }
 
     override fun changeList() {
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20)
         recyclerView.isDrawingCacheEnabled = true
-        adapter.notifyDataSetChanged()
-        recyclerView.layoutManager = layoutManager
+        listAdapter.notifyDataSetChanged()
+        recyclerView.layoutManager = listlayoutManager
     }
 
     override fun addPopularList(popularInfo: PopularInfo) {

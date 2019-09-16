@@ -18,11 +18,17 @@ class ListPresenter(var listViewInterface: ListViewInterface, var listModelInter
 
     fun callJson(pagenum: Int) {
         val popularUrl = "https://api.themoviedb.org/3/person/popular?api_key=bd9eb9f62e484b7b3de4718afb6cd421&page=$pagenum"
-        listModelInterface.geturl(popularUrl)
+        listModelInterface.geturl(popularUrl){
+            listViewInterface.addPopularList(it!!)
+            listViewInterface.changeList()
+        }
     }
 
     fun searchingCall(searchStr: String) {
         val searchUrl = "https://api.themoviedb.org/3/search/person?api_key=bd9eb9f62e484b7b3de4718afb6cd421&query=$searchStr"
-        listModelInterface.geturl(searchUrl)
+        listModelInterface.geturl(searchUrl){
+            listViewInterface.addPopularList(it!!)
+            listViewInterface.changeList()
+        }
     }
 }

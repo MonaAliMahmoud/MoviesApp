@@ -66,9 +66,9 @@ class DataNetwork(internal var listModel: ListModel) : AsyncTask<String, String,
                 popularInfo.known_for_department = popularResult.getString("known_for_department")
                 popularInfo.profile_path = popularResult.getString("profile_path")
                 popularInfo.id = popularResult.getInt("id")
-                listModel.listPresenter!!.getPopularList(popularInfo)
+//                listModel.listPresenter!!.getPopularList(popularInfo)
             }
-            listModel.listPresenter!!.changeAdapter()
+//            listModel.listPresenter!!.changeAdapter()
         } catch (e: JSONException) {
             e.printStackTrace()
         }
