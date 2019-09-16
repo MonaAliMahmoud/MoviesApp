@@ -2,7 +2,7 @@ package com.mona.moviesapp.popular_people.PopularListScreen.model
 
 import android.os.AsyncTask
 
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController
+import com.mona.moviesapp.popular_people.PopularListScreen.Presenter.ListPresenter
 import com.mona.moviesapp.popular_people.pojo.PopularInfo
 
 import org.json.JSONException
@@ -15,7 +15,12 @@ import java.net.HttpURLConnection
 import java.net.MalformedURLException
 import java.net.URL
 
-class DataNetwork(internal var listModel: ListModel, private val listController: ListController) : AsyncTask<String, String, String>() {
+class DataNetwork(internal var listModel: ListModel) : AsyncTask<String, String, String>() {
+
+    var listPresenter: ListPresenter? = null
+    init {
+        this.listPresenter = listPresenter
+    }
 
     override fun doInBackground(vararg urls: String): String? {
         var httpURLConnection: HttpURLConnection? = null
@@ -61,9 +66,9 @@ class DataNetwork(internal var listModel: ListModel, private val listController:
                 popularInfo.known_for_department = popularResult.getString("known_for_department")
                 popularInfo.profile_path = popularResult.getString("profile_path")
                 popularInfo.id = popularResult.getInt("id")
-                listModel.listController.getPopularList(popularInfo)
+                listModel.listPresenter!!.getPopularList(popularInfo)
             }
-            listModel.listController.changeAdapter()
+            listModel.listPresenter!!.changeAdapter()
         } catch (e: JSONException) {
             e.printStackTrace()
         }

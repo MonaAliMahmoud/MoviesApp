@@ -12,19 +12,21 @@ import android.view.Menu
 import android.view.MenuItem
 
 import com.mona.moviesapp.R
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController
+import com.mona.moviesapp.popular_people.PopularListScreen.Interfaces.ListViewInterface
+import com.mona.moviesapp.popular_people.PopularListScreen.Presenter.ListPresenter
+import com.mona.moviesapp.popular_people.PopularListScreen.model.ListModel
 import com.mona.moviesapp.popular_people.pojo.PopularInfo
 
 import java.util.ArrayList
 
-class PopularListActivity : AppCompatActivity() {
+class PopularListActivity : AppCompatActivity(), ListViewInterface {
 
     lateinit var swipeRefresh: SwipeRefreshLayout
     lateinit var recyclerView: RecyclerView
     lateinit var layoutManager: LinearLayoutManager
 
     lateinit var adapter: MyListAdapter
-    lateinit var listController: ListController
+    var listPresenter: ListPresenter? = null
     internal var popularInfos = ArrayList<PopularInfo>()
     private var pagenum = 1
 
@@ -37,8 +39,9 @@ class PopularListActivity : AppCompatActivity() {
 
         layoutManager = LinearLayoutManager(this)
         configRecycleView(popularInfos)
-        listController = ListController(this)
-        listController.callJson(pagenum)
+
+        listPresenter = ListPresenter(this, ListModel())
+        listPresenter!!.callJson(pagenum)
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -48,7 +51,7 @@ class PopularListActivity : AppCompatActivity() {
                 val totalItems = layoutManager.itemCount
                 if (currentItems + scrolledItems == totalItems) {
                     pagenum++
-                    listController.callJson(pagenum)
+                    listPresenter!!.callJson(pagenum)
                 }
             }
         })
@@ -56,7 +59,7 @@ class PopularListActivity : AppCompatActivity() {
         swipeRefresh.setOnRefreshListener {
             Handler().postDelayed({
                 swipeRefresh.isRefreshing = false
-                listController.callJson(pagenum)
+                listPresenter!!.callJson(pagenum)
             }, 1000)
         }
     }
@@ -72,7 +75,7 @@ class PopularListActivity : AppCompatActivity() {
                     override fun onQueryTextSubmit(s: String): Boolean {
                         popularInfos.clear()
                         if (!s.isEmpty()) {
-                            listController.searchingCall(s)
+                            listPresenter!!.searchingCall(s)
                         }
                         return true
                     }
@@ -80,7 +83,7 @@ class PopularListActivity : AppCompatActivity() {
                     override fun onQueryTextChange(s: String): Boolean {
                         popularInfos.clear()
                         if (searchView.query.length == 0) {
-                            listController.callJson(pagenum)
+                            listPresenter!!.callJson(pagenum)
                         }
                         return true
                     }
@@ -95,7 +98,7 @@ class PopularListActivity : AppCompatActivity() {
         return true
     }
 
-    fun configRecycleView(popularInfos: ArrayList<PopularInfo>) {
+    override fun configRecycleView(popularInfos: ArrayList<PopularInfo>) {
         adapter = MyListAdapter(popularInfos, this@PopularListActivity)
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)
@@ -104,7 +107,7 @@ class PopularListActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
     }
 
-    fun changeList() {
+    override fun changeList() {
         recyclerView.setHasFixedSize(true)
         recyclerView.setItemViewCacheSize(20)
         recyclerView.isDrawingCacheEnabled = true
@@ -112,7 +115,7 @@ class PopularListActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManager
     }
 
-    fun addPopularList(popularInfo: PopularInfo) {
+    override fun addPopularList(popularInfo: PopularInfo) {
         popularInfos.add(popularInfo)
     }
 }

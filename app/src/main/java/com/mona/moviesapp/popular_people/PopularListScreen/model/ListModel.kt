@@ -1,16 +1,23 @@
 package com.mona.moviesapp.popular_people.PopularListScreen.model
 
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController
+import com.mona.moviesapp.popular_people.PopularListScreen.Interfaces.ListModelInterface
+import com.mona.moviesapp.popular_people.PopularListScreen.Presenter.ListPresenter
 
-class ListModel(internal var listController: ListController) {
-    internal var dataNetwork = DataNetwork(this, listController)
+class ListModel: ListModelInterface {
+
+    var listPresenter: ListPresenter? = null
+    init {
+        this.listPresenter = listPresenter
+    }
+
+    var dataNetwork = DataNetwork(this)
 
     init {
         this.dataNetwork = dataNetwork
     }
 
-    fun geturl(popularurl: String) {
-        val dataNetwork = DataNetwork(this, listController)
-        dataNetwork.execute(popularurl)
+    override fun geturl(popularUrl: String) {
+        val dataNetwork = DataNetwork(this)
+        dataNetwork.execute(popularUrl)
     }
 }

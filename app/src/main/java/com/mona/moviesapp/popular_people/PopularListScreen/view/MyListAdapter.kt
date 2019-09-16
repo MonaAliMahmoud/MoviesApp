@@ -16,7 +16,7 @@ import android.widget.TextView
 
 import com.mona.moviesapp.R
 import com.mona.moviesapp.popular_people.PopularDetailsScreen.view.PopularDetailsActivity
-import com.mona.moviesapp.popular_people.PopularListScreen.controller.ListController
+import com.mona.moviesapp.popular_people.PopularListScreen.Presenter.ListPresenter
 import com.mona.moviesapp.popular_people.pojo.PopularInfo
 
 import java.io.IOException
@@ -36,7 +36,7 @@ class MyListAdapter(private val info: ArrayList<PopularInfo>, private val contex
     var bmImg: Bitmap? = null
     var popImg: ImageView? = null
 
-    var listController: ListController? = null
+    var listPresenter: ListPresenter? = null
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         inflater = LayoutInflater.from(viewGroup.context)
@@ -79,7 +79,7 @@ class MyListAdapter(private val info: ArrayList<PopularInfo>, private val contex
             itemView.setOnClickListener {
                 val intent = Intent(context, PopularDetailsActivity::class.java)
 
-                //                    listController.getData(popularInf, intent);
+                //                    listPresenter.getData(popularInf, intent);
 
                 val arg = Bundle()
                 arg.putString("popName", popularInf.name)
