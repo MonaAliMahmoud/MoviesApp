@@ -1,23 +1,46 @@
 package com.mona.moviesapp.popular_people.PopularDetailsScreen.model
 
-import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController
+import android.os.Handler
+import android.os.Looper
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.Interfaces.DetailsModelInterface
+import com.mona.moviesapp.popular_people.pojo.Profiles
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 
-class DetailsModel(internal var detailsController: DetailsController) {
-    internal var imageNetwork = ImageNetwork(this, detailsController)
-    internal var profileImagesNetwork = ProfileImagesNetwork(this, detailsController)
+class DetailsModel: DetailsModelInterface{
 
-    init {
-        this.imageNetwork = imageNetwork
-        this.profileImagesNetwork = profileImagesNetwork
-    }
+    override fun getPopProfiles(profileUrl: String, loadProfile: (profile: Profiles?) -> Any) {
 
-    fun getPopProfiles(profileUrl: String) {
-        val profileImagesNetwork = ProfileImagesNetwork(this, detailsController)
-        profileImagesNetwork.execute(profileUrl)
-    }
+        val client = OkHttpClient()
+        val request = Request.Builder()
+                .url(profileUrl)
+                .build()
 
-    fun setPopImage(popProfile: String) {
-        val imageNetwork = ImageNetwork(this, detailsController)
-        imageNetwork.execute(popProfile)
+        client.newCall(request).enqueue(object : Callback {
+            var handler: Handler = Handler(Looper.getMainLooper())
+
+            override fun onFailure(call: Call, e: IOException) {
+            }
+
+            @Throws(IOException::class)
+            override fun onResponse(call: Call, response: Response) {
+
+                if (response.isSuccessful) {
+                    val result = response.body()!!.string()
+                    val popular_profiles = JSONObject(result)
+                    val pop_profiles = popular_profiles.getJSONArray("profiles")
+                    for (i in 0 until pop_profiles.length()) {
+                        val profileResult = pop_profiles.getJSONObject(i)
+                        val pictures = Profiles()
+                        pictures.file_path = profileResult.getString("file_path")
+
+                        handler.post{
+                            loadProfile(pictures)
+                        }
+                    }
+                }
+            }
+        })
     }
 }

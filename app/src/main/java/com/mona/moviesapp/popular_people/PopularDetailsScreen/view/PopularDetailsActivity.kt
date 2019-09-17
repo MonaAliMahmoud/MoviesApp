@@ -1,22 +1,24 @@
 package com.mona.moviesapp.popular_people.PopularDetailsScreen.view
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 
 import com.mona.moviesapp.R
 import com.mona.moviesapp.popular_people.FullImageScreen.view.FullImageActivity
-import com.mona.moviesapp.popular_people.PopularDetailsScreen.controller.DetailsController
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.Interfaces.DetailsViewInterface
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.model.DetailsModel
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.presenter.DetailsPresenter
 import com.mona.moviesapp.popular_people.pojo.Profiles
 
 import java.util.ArrayList
 
-class PopularDetailsActivity : AppCompatActivity() {
+class PopularDetailsActivity : AppCompatActivity(), DetailsViewInterface {
 
     private var name: TextView? = null
     private var depart: TextView? = null
@@ -26,9 +28,10 @@ class PopularDetailsActivity : AppCompatActivity() {
     private var profile: ImageView? = null
     private var gridphotos: RecyclerView? = null
     lateinit var detailsadapter: ImagsAdapter
+    var gridLayoutManager: GridLayoutManager? = null
 
-    lateinit var detailsController: DetailsController
-    internal var popularInfos = ArrayList<Profiles>()
+    var detailsPresenter: DetailsPresenter? = null
+    internal var popularPictures = ArrayList<Profiles>()
 
     private var detailsIntent: Intent? = null
     private var bundle: Bundle? = null
@@ -53,8 +56,11 @@ class PopularDetailsActivity : AppCompatActivity() {
         profile = findViewById(R.id.profileimg)
         gridphotos = findViewById(R.id.photos)
 
-        configGridRecycleview(popularInfos)
-        detailsController = DetailsController(this)
+        gridLayoutManager = GridLayoutManager(this@PopularDetailsActivity, 2)
+
+        configGridRecycleview(popularPictures)
+
+        detailsPresenter = DetailsPresenter(this, DetailsModel())
 
         detailsIntent = intent
         bundle = detailsIntent!!.getBundleExtra("data")
@@ -74,9 +80,12 @@ class PopularDetailsActivity : AppCompatActivity() {
         adult!!.text = "Adult: " + popadult!!
         gender!!.text = "Gender: $popgender"
         popularity!!.text = "Popularity: $poppopular"
-        detailsController.setPopId(popid)
 
-        detailsController.getPopImage(popprofile!!)
+        Glide.with(this)
+                .load(popprofile)
+                .into(profile!!)
+
+        detailsPresenter!!.setPopId(popid)
 
         profile!!.setOnClickListener {
             val intent = Intent(this@PopularDetailsActivity, FullImageActivity::class.java)
@@ -87,29 +96,24 @@ class PopularDetailsActivity : AppCompatActivity() {
         }
     }
 
-    fun setImage(bitmap: Any?) {
-        if (bitmap != null) {
-            profile!!.setImageBitmap(bitmap as Bitmap?)
-        } else {
-            profile!!.setImageResource(R.drawable.ic_launcher_background)
-        }
-    }
-
-    fun configGridRecycleview(profiles: ArrayList<Profiles>) {
+    override fun configGridRecycleview(profiles: ArrayList<Profiles>) {
         detailsadapter = ImagsAdapter(profiles, this@PopularDetailsActivity)
         gridphotos!!.adapter = detailsadapter
-        gridphotos!!.layoutManager = GridLayoutManager(this@PopularDetailsActivity, 2)
+        gridphotos!!.setHasFixedSize(true)
+        gridphotos!!.setItemViewCacheSize(20)
+        gridphotos!!.isDrawingCacheEnabled = true
+        gridphotos!!.layoutManager = gridLayoutManager
     }
 
-    fun changeGride() {
+    override fun changeGride() {
         gridphotos!!.setHasFixedSize(true)
         gridphotos!!.setItemViewCacheSize(20)
         gridphotos!!.isDrawingCacheEnabled = true
         detailsadapter.notifyDataSetChanged()
-        gridphotos!!.layoutManager = GridLayoutManager(this@PopularDetailsActivity, 2)
+        gridphotos!!.layoutManager = gridLayoutManager
     }
 
-    fun addPopularDetails(profiles: Profiles) {
-        popularInfos.add(profiles)
+    override fun addPopularDetails(profiles: Profiles) {
+        popularPictures.add(profiles)
     }
 }
