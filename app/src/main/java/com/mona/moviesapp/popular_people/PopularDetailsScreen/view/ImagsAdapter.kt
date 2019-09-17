@@ -24,6 +24,7 @@ class ImagsAdapter(private val profiles: ArrayList<Profiles>, private val contex
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         inflater = LayoutInflater.from(viewGroup.context)
         val listItem = inflater!!.inflate(R.layout.list_img, viewGroup, false)
+
         return ViewHolder(listItem)
     }
 

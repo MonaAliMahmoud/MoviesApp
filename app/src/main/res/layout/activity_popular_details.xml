@@ -8,11 +8,10 @@
     android:layout_margin="20dp"
     tools:context=".popular_people.PopularDetailsScreen.view.PopularDetailsActivity">
 
-
     <ImageView
         android:id="@+id/profileimg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         tools:srcCompat="@tools:sample/avatars[0]" />
     <LinearLayout
         android:layout_width="match_parent"
