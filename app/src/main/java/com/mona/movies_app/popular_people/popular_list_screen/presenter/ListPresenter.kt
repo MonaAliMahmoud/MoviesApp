@@ -7,18 +7,17 @@ import com.mona.movies_app.popular_people.pojo.PopularInfo
 class ListPresenter(private var listViewInterface: ListViewInterface, private var listModelInterface: ListModelInterface) {
 
     fun callJson(pageNum: Int) {
-        listModelInterface.getUrl(pageNum){
+        listModelInterface.getUrl(pageNum.toString()){
             listViewInterface.addPopularList(it!!)
             listViewInterface.changeList()
         }
     }
 
     fun searchingCall(searchStr: String) {
-        val searchUrl = "https://api.themoviedb.org/3/search/person?api_key=bd9eb9f62e484b7b3de4718afb6cd421&query=$searchStr"
-//        listModelInterface.getUrl(searchUrl){
-//            listViewInterface.addPopularList(it!!)
-//            listViewInterface.changeList()
-//        }
+        listModelInterface.getSearchList(searchStr){
+            listViewInterface.addPopularList(it!!)
+            listViewInterface.changeList()
+        }
     }
 
     fun onItemViewClicked(popularInf: PopularInfo){

@@ -15,13 +15,13 @@ import retrofit2.Response
 class ListModel: ListModelInterface{
 
     var popularInfo: ArrayList<PopularInfo>? = null
+    private val service = RetrofitService.RetrofitManager.getInstance()?.create(RetrofitApi::class.java)
 
-    override fun getUrl(pageNum: Int, loadData: (popularInfo: PopularInfo?) -> Unit) {
+    override fun getUrl(pageNum: String, loadData: (popularInfo: PopularInfo?) -> Unit) {
 
-        val service = RetrofitService.RetrofitManager.getInstance()?.create(RetrofitApi::class.java)
-        val call: Call<PopularList>? = service?.callJson(pageNum)
+        val callJson: Call<PopularList>? = service?.callJson(pageNum)
 
-        call?.enqueue(object : Callback<PopularList> {
+        callJson?.enqueue(object : Callback<PopularList> {
 
             var handler: Handler = Handler(Looper.getMainLooper())
             override fun onFailure(call: Call<PopularList>, t: Throwable) {
@@ -35,6 +35,33 @@ class ListModel: ListModelInterface{
                     handler.post{
                         loadData(popularInfo!![i])
                     }
+                    Log.i("","Successfully Added")
+                }
+                else{
+                    Log.i("","Failed to connect server")
+                }
+            }
+        })
+    }
+
+    override fun getSearchList(searchStr: String, loadData: (popularInfo: PopularInfo?) -> Unit) {
+
+        val search: Call<PopularList>? = service?.searching(searchStr)
+
+        search?.enqueue(object : Callback<PopularList> {
+
+            var handler: Handler = Handler(Looper.getMainLooper())
+            override fun onFailure(call: Call<PopularList>, t: Throwable) {
+                Log.i("","Failed to add item")
+            }
+
+            override fun onResponse(call: Call<PopularList>, response: Response<PopularList>) {
+                if(response.isSuccessful){
+                    popularInfo = response.body()!!.results
+                    for (i in 0 until popularInfo!!.size)
+                        handler.post{
+                            loadData(popularInfo!![i])
+                        }
                     Log.i("","Successfully Added")
                 }
                 else{
