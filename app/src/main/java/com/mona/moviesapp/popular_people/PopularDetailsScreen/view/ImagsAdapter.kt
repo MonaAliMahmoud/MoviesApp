@@ -21,6 +21,8 @@ class ImagsAdapter(private val profiles: ArrayList<Profiles>, private val contex
     internal var profileImg: ImageView? = null
     var profile_picture:Profiles? = null
 
+    private var popularDetailsActivity = context as PopularDetailsActivity
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         inflater = LayoutInflater.from(viewGroup.context)
         val listItem = inflater!!.inflate(R.layout.list_img, viewGroup, false)
@@ -51,11 +53,7 @@ class ImagsAdapter(private val profiles: ArrayList<Profiles>, private val contex
 
         fun bindData(prof: Profiles) {
             itemView.setOnClickListener {
-                val intent = Intent(context, FullImageActivity::class.java)
-                val arg = Bundle()
-                arg.putString("picture_path", img_path + prof.file_path)
-                intent.putExtra("data", arg)
-                context.startActivity(intent)
+                popularDetailsActivity.detailsPresenter!!.onItemViewClicked(prof)
             }
         }
     }

@@ -5,6 +5,7 @@ import java.util.ArrayList
 
 interface DetailsViewInterface {
     fun configGridRecycleview(profiles: ArrayList<Profiles>)
-    fun changeGride()
+    fun changeGrid()
     fun addPopularDetails(profiles: Profiles)
+    fun goToFullImageScreen(imgPath: String, prof: Profiles)
 }

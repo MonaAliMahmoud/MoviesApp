@@ -105,7 +105,7 @@ class PopularDetailsActivity : AppCompatActivity(), DetailsViewInterface {
         gridphotos!!.layoutManager = gridLayoutManager
     }
 
-    override fun changeGride() {
+    override fun changeGrid() {
         gridphotos!!.setHasFixedSize(true)
         gridphotos!!.setItemViewCacheSize(20)
         gridphotos!!.isDrawingCacheEnabled = true
@@ -115,5 +115,13 @@ class PopularDetailsActivity : AppCompatActivity(), DetailsViewInterface {
 
     override fun addPopularDetails(profiles: Profiles) {
         popularPictures.add(profiles)
+    }
+
+    override fun goToFullImageScreen(imgPath: String, prof: Profiles) {
+        val intent = Intent(this, FullImageActivity::class.java)
+        val arg = Bundle()
+        arg.putString("picture_path", imgPath + prof.file_path)
+        intent.putExtra("data", arg)
+        startActivity(intent)
     }
 }
