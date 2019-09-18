@@ -10,7 +10,7 @@ import android.os.Handler
 
 class ListModel: ListModelInterface{
 
-    override fun geturl(popularUrl: String, loadData: (popularInfo: PopularInfo?) -> Any) {
+    override fun geturl(popularUrl: String, loadData: (popularInfo: PopularInfo?) -> Unit) {
 
         val client = OkHttpClient()
         val request = Request.Builder()

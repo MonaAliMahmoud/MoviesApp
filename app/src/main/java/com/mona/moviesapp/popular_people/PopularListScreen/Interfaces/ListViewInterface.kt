@@ -8,4 +8,5 @@ interface ListViewInterface {
     fun configRecycleView(popularInfos: ArrayList<PopularInfo>)
     fun changeList()
     fun addPopularList(popularInfo: PopularInfo)
+    fun goToDetailsScreen(imgPath: String, popularInf: PopularInfo)
 }

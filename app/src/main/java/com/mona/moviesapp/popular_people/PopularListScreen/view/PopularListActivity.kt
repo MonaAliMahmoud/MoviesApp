@@ -1,5 +1,6 @@
 package com.mona.moviesapp.popular_people.PopularListScreen.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.view.MenuItemCompat
@@ -12,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 
 import com.mona.moviesapp.R
+import com.mona.moviesapp.popular_people.PopularDetailsScreen.view.PopularDetailsActivity
 import com.mona.moviesapp.popular_people.PopularListScreen.Interfaces.ListViewInterface
 import com.mona.moviesapp.popular_people.PopularListScreen.Presenter.ListPresenter
 import com.mona.moviesapp.popular_people.PopularListScreen.model.ListModel
@@ -64,6 +66,9 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
         }
     }
 
+    fun getListPresenterObject(): ListPresenter?{
+        return listPresenter
+    }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.search, menu)
         val item: MenuItem = menu.findItem(R.id.search_item)
@@ -117,5 +122,16 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
 
     override fun addPopularList(popularInfo: PopularInfo) {
         popularInfos.add(popularInfo)
+    }
+
+    override fun goToDetailsScreen(imgPath: String, popularInf: PopularInfo) {
+        val intent = Intent(this, PopularDetailsActivity::class.java)
+        val arg = Bundle()
+        arg.putString("popName", popularInf.name)
+        arg.putString("popeDepart", popularInf.known_for_department)
+        arg.putString("profile", imgPath + popularInf.profile_path)
+        arg.putInt("id", popularInf.id)
+        intent.putExtra("data", arg)
+        startActivity(intent)
     }
 }
