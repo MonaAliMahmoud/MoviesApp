@@ -1,47 +1,44 @@
 package com.mona.movies_app.popular_people.popular_list_screen.model
 
-import android.os.Looper
-import com.mona.movies_app.popular_people.popular_list_screen.interfaces.ListModelInterface
-import com.mona.movies_app.popular_people.pojo.PopularInfo
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
 import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import com.mona.movies_app.popular_people.network.RetrofitApi
+import com.mona.movies_app.popular_people.network.RetrofitService
+import com.mona.movies_app.popular_people.pojo.PopularInfo
+import com.mona.movies_app.popular_people.pojo.PopularList
+import com.mona.movies_app.popular_people.popular_list_screen.interfaces.ListModelInterface
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ListModel: ListModelInterface{
 
-    override fun getUrl(popularUrl: String, loadData: (popularInfo: PopularInfo?) -> Unit) {
+    var popularInfo: ArrayList<PopularInfo>? = null
 
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url(popularUrl)
-                .build()
+    override fun getUrl(pageNum: Int, loadData: (popularInfo: PopularInfo?) -> Unit) {
 
-        client.newCall(request).enqueue(object : Callback {
+        val service = RetrofitService.RetrofitManager.getInstance()?.create(RetrofitApi::class.java)
+        val call: Call<PopularList>? = service?.callJson(pageNum)
+
+        call?.enqueue(object : Callback<PopularList> {
+
             var handler: Handler = Handler(Looper.getMainLooper())
-
-            override fun onFailure(call: Call, e: IOException) {
+            override fun onFailure(call: Call<PopularList>, t: Throwable) {
+                Log.i("","Failed to add item")
             }
 
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-
-                if (response.isSuccessful) {
-                    val result = response.body()!!.string()
-                    val popularList = JSONObject(result)
-                    val popular = popularList.getJSONArray("results")
-                    for (i in 0 until popular.length()) {
-                        val popularResult = popular.getJSONObject(i)
-                        val popularInfo = PopularInfo()
-                        popularInfo.name = popularResult.getString("name")
-                        popularInfo.known_for_department = popularResult.getString("known_for_department")
-                        popularInfo.profile_path = popularResult.getString("profile_path")
-                        popularInfo.id = popularResult.getInt("id")
-
-                        handler.post{
-                            loadData(popularInfo)
-                        }
+            override fun onResponse(call: Call<PopularList>, response: Response<PopularList>) {
+                if(response.isSuccessful){
+                    popularInfo = response.body()!!.results
+                    for (i in 0 until popularInfo!!.size)
+                    handler.post{
+                        loadData(popularInfo!![i])
                     }
+                    Log.i("","Successfully Added")
+                }
+                else{
+                    Log.i("","Failed to connect server")
                 }
             }
         })
