@@ -2,43 +2,44 @@ package com.mona.movies_app.popular_people.popular_details_screen.model
 
 import android.os.Handler
 import android.os.Looper
-import com.mona.movies_app.popular_people.popular_details_screen.interfaces.DetailsModelInterface
+import android.util.Log
+import com.mona.movies_app.popular_people.network.RetrofitApi
+import com.mona.movies_app.popular_people.network.RetrofitService
+import com.mona.movies_app.popular_people.pojo.PopularProfile
 import com.mona.movies_app.popular_people.pojo.Profiles
-import okhttp3.*
-import org.json.JSONObject
-import java.io.IOException
+import com.mona.movies_app.popular_people.popular_details_screen.interfaces.DetailsModelInterface
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class DetailsModel: DetailsModelInterface{
 
-    override fun getPopProfiles(profileUrl: String, loadProfile: (profile: Profiles?) -> Any) {
+    var profileList: ArrayList<Profiles>? = null
+    private val service = RetrofitService.RetrofitManager.getInstance()?.create(RetrofitApi::class.java)
 
-        val client = OkHttpClient()
-        val request = Request.Builder()
-                .url(profileUrl)
-                .build()
+    override fun getPopProfiles(popularId: String, loadProfile: (profile: Profiles?) -> Unit) {
 
-        client.newCall(request).enqueue(object : Callback {
+        val popProfile: Call<PopularProfile>? = service?.getProfiles(popularId)
+
+        popProfile?.enqueue(object : Callback<PopularProfile> {
+
             var handler: Handler = Handler(Looper.getMainLooper())
-
-            override fun onFailure(call: Call, e: IOException) {
+            override fun onFailure(call: Call<PopularProfile>, t: Throwable) {
+                Log.i("","Failed to add item")
             }
 
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: Response) {
-
-                if (response.isSuccessful) {
-                    val result = response.body()!!.string()
-                    val popularProfiles = JSONObject(result)
-                    val popProfiles = popularProfiles.getJSONArray("profiles")
-                    for (i in 0 until popProfiles.length()) {
-                        val profileResult = popProfiles.getJSONObject(i)
-                        val pictures = Profiles()
-                        pictures.file_path = profileResult.getString("file_path")
-
-                        handler.post{
-                            loadProfile(pictures)
+            override fun onResponse(call: Call<PopularProfile>, response: Response<PopularProfile>) {
+                if(response.isSuccessful) {
+                    profileList = response.body()!!.profiles
+                    for (i in 0 until profileList!!.size) {
+                        handler.post {
+                            loadProfile(profileList!![i])
                         }
+                        Log.i("", "Successfully Added")
                     }
+                }
+                else{
+                    Log.i("","Failed to connect server")
                 }
             }
         })

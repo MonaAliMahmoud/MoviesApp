@@ -31,11 +31,12 @@ class ListModel: ListModelInterface{
             override fun onResponse(call: Call<PopularList>, response: Response<PopularList>) {
                 if(response.isSuccessful){
                     popularInfo = response.body()!!.results
-                    for (i in 0 until popularInfo!!.size)
-                    handler.post{
-                        loadData(popularInfo!![i])
+                    for (i in 0 until popularInfo!!.size) {
+                        handler.post {
+                            loadData(popularInfo!![i])
+                        }
+                        Log.i("", "Successfully Added")
                     }
-                    Log.i("","Successfully Added")
                 }
                 else{
                     Log.i("","Failed to connect server")
@@ -58,11 +59,12 @@ class ListModel: ListModelInterface{
             override fun onResponse(call: Call<PopularList>, response: Response<PopularList>) {
                 if(response.isSuccessful){
                     popularInfo = response.body()!!.results
-                    for (i in 0 until popularInfo!!.size)
-                        handler.post{
+                    for (i in 0 until popularInfo!!.size) {
+                        handler.post {
                             loadData(popularInfo!![i])
                         }
-                    Log.i("","Successfully Added")
+                        Log.i("", "Successfully Added")
+                    }
                 }
                 else{
                     Log.i("","Failed to connect server")
