@@ -52,8 +52,7 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
                 val scrolledItems = listLayoutManager.findFirstCompletelyVisibleItemPosition()
                 val totalItems = listLayoutManager.itemCount
                 if (currentItems + scrolledItems == totalItems) {
-                    pageNum++
-                    listPresenter!!.callJson(pageNum)
+                    listPresenter!!.loadNextPage(pageNum)
                 }
             }
         })
@@ -61,7 +60,7 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
         swipeRefresh.setOnRefreshListener {
             Handler().postDelayed({
                 swipeRefresh.isRefreshing = false
-                listPresenter!!.callJson(pageNum)
+                listPresenter!!.refresh(pageNum)
             }, 1000)
         }
     }
@@ -75,8 +74,7 @@ class PopularListActivity : AppCompatActivity(), ListViewInterface {
             override fun onMenuItemActionExpand(menuItem: MenuItem): Boolean {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(s: String): Boolean {
-                        popularInfos.clear()
-                        if (!s.isEmpty()) {
+                        if (s.isNotEmpty()) {
                             listPresenter!!.searchingCall(s)
                         }
                         return true
