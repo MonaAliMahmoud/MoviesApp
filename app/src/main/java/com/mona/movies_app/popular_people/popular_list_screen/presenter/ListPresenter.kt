@@ -37,9 +37,5 @@ class ListPresenter(private var listViewInterface: ListViewInterface, private va
     fun refresh(pageNum: Int){
         popularInfos.clear()
         callJson(pageNum)
-//        listModelInterface.getUrl(pageNum.toString()) {
-//            listViewInterface.addPopularList(it!!)
-//            listViewInterface.changeList()
-//        }
     }
 }
